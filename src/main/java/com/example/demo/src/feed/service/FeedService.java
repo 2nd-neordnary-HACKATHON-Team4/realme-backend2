@@ -1,6 +1,7 @@
 package com.example.demo.src.feed.service;
 
 import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.category.Repository.CategoryRepository;
 import com.example.demo.src.feed.entity.FeedEntity;
 import com.example.demo.src.feed.entity.LikeEntity;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.example.demo.config.BaseResponseStatus.PASSWORD_ENCRYPTION_ERROR;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +27,11 @@ public class FeedService {
     public UserEntity userlike(Long userIdx, Long feedIdx) throws BaseException {
         Optional<UserEntity> user = this.userRepository.findById(userIdx);
         Optional<FeedEntity> feed = this.feedRepository.findById(feedIdx);
-        if(user.isEmpty() || feed.isEmpty()){
-            throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
+        if(user.isEmpty()){
+            throw new BaseException(INVALID_USER_JWT);
+        }
+        if(feed.isEmpty()){
+            throw new BaseException(INVALID_FEED_NUM);
         }
         LikeEntity like = this.likeRepository.findByUserAndFeed(user, feed);
         if(like != null){
