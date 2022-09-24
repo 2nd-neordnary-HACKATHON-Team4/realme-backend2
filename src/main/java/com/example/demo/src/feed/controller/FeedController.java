@@ -42,6 +42,12 @@ public class FeedController {
     }
 
     @ResponseBody
+    @ApiOperation(value = "피드 작성 API")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "요청에 성공하였습니다."),
+            @ApiResponse(code = 2003, message = "권한이 없는 유저의 접근입니다."),
+            @ApiResponse(code = 2300, message = "존재하지 않는 카테고리입니다.")
+    })
     @PostMapping("/feeds")
     public BaseResponse<String> postFeed(@RequestBody FeedDTO.PostFeed feed){
         try{
