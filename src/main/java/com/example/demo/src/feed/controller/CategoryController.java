@@ -1,15 +1,14 @@
 package com.example.demo.src.feed.controller;
 
-import com.example.demo.src.category.Service.CategoryService;
+import com.example.demo.src.feed.service.FeedService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/category")
+@RequiredArgsConstructor
+@RequestMapping(value = "/categories")
 public class CategoryController {
-    private CategoryService categoryService;
+    private final FeedService feedService;
 
-    public CategoryController(CategoryService categoryService){
-        this.categoryService = categoryService;
-    }
 }
