@@ -112,7 +112,7 @@ public class UserController {
     @ApiOperation(value = "다른 유저 마이페이지 조회 API (figma: MyPageList)")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "요청에 성공하였습니다."),
-            @ApiResponse(code = 2010, message = "유저 아이디 값을 확인해주세요."),
+            @ApiResponse(code = 2010, message = "유저 아이디 값이 비어있습니다."),
             @ApiResponse(code = 2011, message = "잘못된 유저 아이디 값입니다."),
     })
     public BaseResponse<UserDto.Page> getUsersPage(@PathVariable("userId") Long userId) {
@@ -129,7 +129,7 @@ public class UserController {
     // @ApiImplicitParam(name = "X-ACCESS-TOKEN", value = "jwt 토큰", required = true, allowEmptyValue = false, paramType = "header")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "요청에 성공하였습니다."),
-            @ApiResponse(code = 2010, message = "유저 아이디 값을 확인해주세요."),
+            @ApiResponse(code = 2010, message = "유저 아이디 값이 비어있습니다."),
             @ApiResponse(code = 2011, message = "잘못된 유저 아이디 값입니다."),
     })
     public BaseResponse<UserDto.Page> getMyPage() {
