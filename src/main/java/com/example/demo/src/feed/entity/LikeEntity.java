@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Table(name = "feed")
+@Table(name = "love")
 @NoArgsConstructor
 public class LikeEntity extends BaseEntity {
     @Id
