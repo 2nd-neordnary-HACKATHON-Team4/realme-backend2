@@ -2,6 +2,7 @@ package com.example.demo.src.feed.entity;
 
 import com.example.demo.config.BaseEntity;
 import com.example.demo.src.category.Entity.CategoryEntity;
+import com.example.demo.src.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,11 +29,16 @@ public class FeedEntity extends BaseEntity {
     @JoinColumn(name="categoryIdx")
     private CategoryEntity category;
 
+    @ManyToOne
+    @JoinColumn(name="userIdx")
+    private UserEntity user;
 
     @Builder
-    public FeedEntity(String contents, String imgUrl, CategoryEntity category){
+    public FeedEntity(String contents, String imgUrl, CategoryEntity category,
+                      UserEntity user){
         this.contents = contents;
         this.imgUrl = imgUrl;
         this.category = category;
+        this.user = user;
     }
 }

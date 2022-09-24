@@ -58,6 +58,9 @@ public enum BaseResponseStatus {
     EMPTY_PAGE_INDEX(false,2200,"페이지 인덱스 값이 필요합니다."),
     INVALID_PAGE_INDEX(false,2201,"잘못된 페이지 인덱스입니다."),
 
+    // 카테고리 관련 요청 오류
+    INVALID_CATEGORY_TYPE(false, 2300, "존재하지 않는 카테고리입니다."),
+
 
 
 
