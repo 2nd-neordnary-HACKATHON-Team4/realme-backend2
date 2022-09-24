@@ -25,6 +25,7 @@ public class CategoryDTO {
     @Setter
     public static class UserProtectedList{
         private Long id;
+        private int likeCount;
         private String contents;
         private String imgUrl;
         private LocalDateTime createdDate;

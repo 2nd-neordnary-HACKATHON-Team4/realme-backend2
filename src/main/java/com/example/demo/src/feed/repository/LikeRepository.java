@@ -9,6 +9,5 @@ import java.util.Optional;
 
 public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
     LikeEntity findByUserAndFeed(Optional<UserEntity> user, Optional<FeedEntity> feed);
-
-    int countByUserAndFeed(UserEntity user, FeedEntity feed);
+    int countByFeed(FeedEntity feed);
 }

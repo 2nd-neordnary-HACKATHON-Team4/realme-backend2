@@ -90,8 +90,9 @@ public class FeedService {
         //exception
         return this.userRepository.findById(userIdx).get();
     }
-    public int userLikeFeed(UserEntity user, FeedEntity feed){
-        return this.likeRepository.countByUserAndFeed(user,feed);
+
+    public int userLikeFeed(FeedEntity feed){
+        return this.likeRepository.countByFeed(feed);
     }
 
     public List<FeedDTO.calendarFeed> getFeedByDate(String date, Long userId) throws BaseException {
@@ -118,12 +119,14 @@ public class FeedService {
 
     public List<CategoryDTO.UserProtectedList> categoryList(Long categoryIdx) throws BaseException{
         Optional<CategoryEntity> category = this.categoryRepository.findById(categoryIdx);
+
         List<FeedEntity> feedEntities;
         if(category.isEmpty() || categoryIdx == 0){
             feedEntities = this.feedRepository.findAll();
         }else{
             feedEntities = this.feedRepository.findAllByCategory(category.get());
         }
+
         List<CategoryDTO.UserProtectedList> userProtectedLists = new ArrayList<>();
         for(FeedEntity i : feedEntities){
 
@@ -141,7 +144,7 @@ public class FeedService {
             users.setNickname(i.getUser().getNickname());
             users.setProfileImgUrl(i.getUser().getProfileImgUrl());
             list.setUserProtected(users);
-
+            list.setLikeCount(this.likeRepository.countByFeed(i));
             userProtectedLists.add(list);
         }
         return userProtectedLists;
