@@ -2,10 +2,7 @@ package com.example.demo.src.user.DTO;
 
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -23,6 +20,7 @@ public class UserDto {
     @Getter
     @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class SignUp {
         @ApiModelProperty(value = "이메일 주소", required = true, example = "abcd123@gmail.com")
         private String email;
@@ -37,6 +35,7 @@ public class UserDto {
     @Getter
     @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class LogIn {
         @ApiModelProperty(value = "이메일 주소", required = true, example = "abcd123@gmail.com")
         private String email;

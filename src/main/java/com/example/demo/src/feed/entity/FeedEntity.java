@@ -17,6 +17,9 @@ public class FeedEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 100)
+    private String title;
+
     @Column(nullable = false, length = 150)
     private String contents;
 
@@ -32,8 +35,9 @@ public class FeedEntity extends BaseEntity {
     private UserEntity user;
 
     @Builder
-    public FeedEntity(String contents, String imgUrl, CategoryEntity category,
+    public FeedEntity(String title, String contents, String imgUrl, CategoryEntity category,
                       UserEntity user){
+        this.title = title;
         this.contents = contents;
         this.imgUrl = imgUrl;
         this.category = category;

@@ -10,6 +10,7 @@ public class FeedDTO {
     @Getter
     @Setter
     public static class PostFeed{
+        private String title;
         private String contents;
         private String imgUrl;
         private Long categoryIdx;

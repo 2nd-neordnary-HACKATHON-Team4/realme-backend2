@@ -38,7 +38,10 @@ public class FeedService {
         if (writer.isEmpty()) {
             throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
         }
-        if(postFeed.getContents() == null){
+        if(postFeed.getTitle().isEmpty()){
+            throw new BaseException(EMPTY_TITLE);
+        }
+        if(postFeed.getContents().isEmpty()){
             throw new BaseException(BaseResponseStatus.EMPTY_CONTENTS);
         }
         if(postFeed.getCategoryIdx() == null){
