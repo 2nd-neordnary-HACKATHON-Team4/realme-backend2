@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(value = "/home")
+@CrossOrigin(origins="*", allowedHeaders = "*")
 public class FeedController {
     private final FeedService feedService;
     private final JwtService jwtService;

@@ -17,6 +17,7 @@ import static com.example.demo.config.BaseResponseStatus.POST_USERS_INVALID_EMAI
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/users")
+@CrossOrigin(origins="*", allowedHeaders = "*")
 public class UserController {
     private final UserService userService;
     private final JwtService jwtService;
