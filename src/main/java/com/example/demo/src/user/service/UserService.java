@@ -27,13 +27,13 @@ public class UserService {
 
     public String createUser(UserDto.SignUp signUp) throws BaseException {
         //이메일 중복 체크
-        if(userRepository.existsByEmail(signUp.getEmail())) {
+        if (userRepository.existsByEmail(signUp.getEmail())) {
             throw new BaseException(DUPLICATED_EMAIL);
         }
 
 
         //닉네임 중복 체크
-        if(userRepository.existsByNickname(signUp.getNickName())) {
+        if (userRepository.existsByNickname(signUp.getNickName())) {
             throw new BaseException(DUPLICATED_NICKNAME);
         }
 
@@ -83,7 +83,7 @@ public class UserService {
     }
 
     public void checkNickName(String nickName) throws BaseException {
-        if(this.userRepository.existsByNickname(nickName)) {
+        if (this.userRepository.existsByNickname(nickName)) {
             throw new BaseException(DUPLICATED_NICKNAME);
         }
     }
@@ -100,38 +100,42 @@ public class UserService {
         } catch (Exception exception) {
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
-        
+
         // 비밀 번호 체크
-        if(user.getPassword().equals(encryptedPassword)) {
+        if (user.getPassword().equals(encryptedPassword)) {
             long userId = user.getId();
             String jwt = jwtService.createJwt(userId);
             return jwt;
-        }
-        else {
+        } else {
             throw new BaseException(FAILED_TO_LOGIN);
         }
 
     }
 
     public String generateCertificationNumberAndSend(String email) throws BaseException {
+        // 이메일 중복 체크
+        if (userRepository.existsByEmail(email)) {
+            throw new BaseException(DUPLICATED_EMAIL);
+        }
+
         Random random = new Random();
-        String certificationNumber = String.valueOf(random.nextInt(888888)+111111);
+        String certificationNumber = String.valueOf(random.nextInt(888888) + 111111);
         sendCertificationNumberToEmail(certificationNumber, email);
         return certificationNumber;
     }
 
     private void sendCertificationNumberToEmail(String certificationNumber, String email) throws BaseException {
         String subject = "Real Me 회원가입 인증번호";
-        String text = "Real Me 회원가입을 위한 인증번호는 <h2>"+certificationNumber +"</h2>입니다. <br />";
+        String text = "Real Me 회원가입을 위한 인증번호는 <h2>" + certificationNumber + "</h2>입니다. <br />";
 
-        try{
+        try {
             MimeMessage message = sender.createMimeMessage();
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
             messageHelper.setTo(email);
             messageHelper.setSubject(subject);
             messageHelper.setText(text, true);
             sender.send(message);
-        }catch(Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
             throw new BaseException(USERS_EMAIL_SEND_FAIL);
         }
