@@ -9,6 +9,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -33,6 +34,7 @@ public class UserController {
             @ApiResponse(code = 2081, message = "닉네임은 최대 8자까지 입력해주세요."),
             @ApiResponse(code = 2082, message = "닉네임은 한글만 사용 가능합니다."),
             @ApiResponse(code = 3030, message = "중복된 사용자 이름입니다."),
+            @ApiResponse(code = 3040, message = "중복된 이메일입니다."),
             @ApiResponse(code = 4000, message = "데이터베이스 연결에 실패하였습니다."),
             @ApiResponse(code = 4011, message = "비밀번호 암호화에 실패하였습니다.")
     })

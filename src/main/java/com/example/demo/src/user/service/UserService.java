@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
@@ -21,8 +25,14 @@ public class UserService {
 
 
     public String createUser(UserDto.SignUp signUp) throws BaseException {
+        //이메일 중복 체크
+        if(userRepository.existsByEmail(signUp.getEmail())) {
+            throw new BaseException(DUPLICATED_EMAIL);
+        }
+
+
         //닉네임 중복 체크
-        if(this.userRepository.existsByNickname(signUp.getEmail())) {
+        if(userRepository.existsByNickname(signUp.getNickName())) {
             throw new BaseException(DUPLICATED_NICKNAME);
         }
 
@@ -101,4 +111,5 @@ public class UserService {
         }
 
     }
+
 }

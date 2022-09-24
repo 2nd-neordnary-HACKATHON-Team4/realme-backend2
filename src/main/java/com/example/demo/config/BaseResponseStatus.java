@@ -47,6 +47,9 @@ public enum BaseResponseStatus {
     EMPTY_TITLE(false, 2012, "제목을 입력해주세요."),
 
 
+
+    GET_INVALID_DATE(false, 2100, "잘못된 날짜 형식입니다."),
+
     
     // 신고 관련 요청 오류
     INVALID_REPORT_TYPE(false,2190,"잘못된 신고 형식입니다."),
@@ -74,11 +77,9 @@ public enum BaseResponseStatus {
     POST_USERS_EXISTS_PHONENUMBER(false,3020,"중복된 휴대폰 번호입니다."),
 
     DUPLICATED_NICKNAME(false,3030,"중복된 사용자 이름입니다."),
-
-
-    FAILED_TO_MODIFY_USERNAME(false,3040,"14일 이내에 이름 변경은 최대 2번입니다."),
-    FAILED_TO_MODIFY_NICKNAME(false,3050,"14일 이내에 사용자 이름 변경은 최대 2번입니다."),
-
+    DUPLICATED_EMAIL(false,3040,"중복된 이메일입니다."),
+    
+    
 
     ALREADY_PUBLIC_ACCOUNT(false,3060,"이미 공개 계정 상태입니다."),
     ALREADY_PRIVATE_ACCOUNT(false,3070,"이미 비공개 계정 상태입니다."),

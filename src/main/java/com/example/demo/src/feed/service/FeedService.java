@@ -5,6 +5,7 @@ import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.feed.DTO.CategoryDTO;
 import com.example.demo.src.feed.controller.CategoryController;
 import com.example.demo.src.feed.entity.CategoryEntity;
+import com.example.demo.src.feed.repository.CalendarRepository;
 import com.example.demo.src.feed.repository.CategoryRepository;
 import com.example.demo.src.feed.DTO.FeedDTO;
 import com.example.demo.src.feed.entity.FeedEntity;
@@ -16,8 +17,10 @@ import com.example.demo.src.feed.entity.LikeEntity;
 import com.example.demo.src.feed.repository.LikeRepository;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +33,7 @@ public class FeedService {
     private final FeedRepository feedRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final CalendarRepository calendarRepository;
     private final JwtService jwtService;
     private final LikeRepository likeRepository;
 
@@ -88,6 +92,13 @@ public class FeedService {
     }
     public int userLikeFeed(UserEntity user, FeedEntity feed){
         return this.likeRepository.countByUserAndFeed(user,feed);
+    }
+
+    public List<FeedDTO.calendarFeed> getFeedByDate(String date, Long userId) throws BaseException {
+
+            List<FeedDTO.calendarFeed> calendarFeedList = calendarRepository.findByDate(userId, date);
+            return calendarFeedList;
+
     }
 
     public List<CategoryDTO.GetCategory> getCategoryAll() throws BaseException{
