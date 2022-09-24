@@ -41,6 +41,11 @@ public enum BaseResponseStatus {
     POST_USERS_EMPTY_LOGIN_ID(false, 2090, "아이디를 입력해주세요."),
     POST_USERS_OVER_LENGTH_LOGIN_ID(false, 2091, "아이디는 3자리 이상 20자리 이하입니다."),
 
+    // 피드 작성 관련 요청 오류
+    EMPTY_CONTENTS(false, 2010, "내용을 입력해주세요."),
+    EMPTY_CATEGORY(false, 2011, "카테고리를 선택해주세요"),
+
+
     
     // 신고 관련 요청 오류
     INVALID_REPORT_TYPE(false,2190,"잘못된 신고 형식입니다."),

@@ -2,6 +2,8 @@ package com.example.demo.src.feed.service;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.feed.DTO.CategoryDTO;
+import com.example.demo.src.feed.controller.CategoryController;
 import com.example.demo.src.feed.entity.CategoryEntity;
 import com.example.demo.src.feed.repository.CategoryRepository;
 import com.example.demo.src.feed.DTO.FeedDTO;
@@ -12,9 +14,12 @@ import com.example.demo.src.user.repository.UserRepository;
 import com.example.demo.utils.JwtService;
 import com.example.demo.src.feed.entity.LikeEntity;
 import com.example.demo.src.feed.repository.LikeRepository;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -32,6 +37,12 @@ public class FeedService {
         Optional<UserEntity> writer = userRepository.findById(this.jwtService.getUserIdx());
         if (writer.isEmpty()) {
             throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
+        }
+        if(postFeed.getContents() == null){
+            throw new BaseException(BaseResponseStatus.EMPTY_CONTENTS);
+        }
+        if(postFeed.getCategoryIdx() == null){
+            throw new BaseException(EMPTY_CATEGORY);
         }
         System.out.println(writer.get());
         Optional<CategoryEntity> category = this.categoryRepository.findById(postFeed.getCategoryIdx());
@@ -74,6 +85,21 @@ public class FeedService {
     }
     public int userLikeFeed(UserEntity user, FeedEntity feed){
         return this.likeRepository.countByUserAndFeed(user,feed);
+    }
+
+    public List<CategoryDTO.GetCategory> getCategoryAll() throws BaseException{
+        List<CategoryEntity> categoryEntity;
+        categoryEntity = categoryRepository.findAll();
+
+        List<CategoryDTO.GetCategory> categoryList = new ArrayList<>();
+
+        for(CategoryEntity i :  categoryEntity){
+            CategoryDTO.GetCategory category = new CategoryDTO.GetCategory();
+            category.setCategoryIdx(i.getCategoryidx());
+            category.setCategoryName(i.getCategoryName());
+            categoryList.add(category);
+        }
+        return categoryList;
     }
 
 }
