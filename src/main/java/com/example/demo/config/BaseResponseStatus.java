@@ -24,7 +24,7 @@ public enum BaseResponseStatus {
     INVALID_FEED_NUM(false, 2004, "잘못된 feedidx 정보 입니다."),
 
     // users
-    USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
+    USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값이 비어있습니다."),
     USERS_INVALID_USER_ID(false, 2011, "잘못된 유저 아이디 값입니다."),
 
     // [POST] /users/signup

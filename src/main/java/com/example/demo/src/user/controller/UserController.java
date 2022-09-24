@@ -6,10 +6,7 @@ import com.example.demo.src.user.DTO.UserDto;
 import com.example.demo.src.user.service.UserService;
 import com.example.demo.src.user.DTO.Login;
 import com.example.demo.utils.JwtService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -112,6 +109,12 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/{userId}")
+    @ApiOperation(value = "다른 유저 마이페이지 조회 API (figma: MyPageList)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "요청에 성공하였습니다."),
+            @ApiResponse(code = 2010, message = "유저 아이디 값을 확인해주세요."),
+            @ApiResponse(code = 2011, message = "잘못된 유저 아이디 값입니다."),
+    })
     public BaseResponse<UserDto.Page> getUsersPage(@PathVariable("userId") Long userId) {
         try {
             return new BaseResponse<>(userService.getUsersPage(userId));
@@ -121,7 +124,14 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping("/")
+    @GetMapping("")
+    @ApiOperation(value = "(헤더에 jwt X-ACCESS-TOKEN 필수) 내 마이페이지 조회 API")
+    // @ApiImplicitParam(name = "X-ACCESS-TOKEN", value = "jwt 토큰", required = true, allowEmptyValue = false, paramType = "header")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "요청에 성공하였습니다."),
+            @ApiResponse(code = 2010, message = "유저 아이디 값을 확인해주세요."),
+            @ApiResponse(code = 2011, message = "잘못된 유저 아이디 값입니다."),
+    })
     public BaseResponse<UserDto.Page> getMyPage() {
         try {
             return new BaseResponse<>(userService.getCurrentUserPage());
