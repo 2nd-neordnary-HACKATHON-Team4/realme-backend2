@@ -32,8 +32,8 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_PASSWORD(false,2031,"비밀 번호는 특수문자 포함 6자 이상 20자리 이하입니다."),
 
     POST_USERS_EMPTY_NICKNAME(false,2080,"닉네임을 입력해주세요."),
-    POST_USERS_OVER_LENGTH_NICKNAME(false,2081,"사용자 이름은 최대 8자까지 입력해주세요."),
-    POST_USERS_INVALID_NICKNAME(false,2082,"닉네임은 영어, 숫자, '_', '.'만 사용 가능합니다."),
+    POST_USERS_OVER_LENGTH_NICKNAME(false,2081,"닉네임은 최대 8자까지 입력해주세요."),
+    POST_USERS_INVALID_NICKNAME(false,2082,"닉네임은 한글만 사용 가능합니다."),
 
     // [POST] /users/login
     POST_USERS_EMPTY_LOGIN_ID(false, 2090, "아이디를 입력해주세요."),
