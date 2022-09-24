@@ -7,8 +7,13 @@ import com.example.demo.src.user.repository.UserRepository;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+
+import javax.mail.internet.MimeMessage;
+import java.util.Random;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -18,7 +23,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
-
+    private final JavaMailSender sender;
 
     public String createUser(UserDto.SignUp signUp) throws BaseException {
         //닉네임 중복 체크
@@ -100,5 +105,29 @@ public class UserService {
             throw new BaseException(FAILED_TO_LOGIN);
         }
 
+    }
+
+    public String generateCertificationNumberAndSend(String email) throws BaseException {
+        Random random = new Random();
+        String certificationNumber = String.valueOf(random.nextInt(888888)+111111);
+        sendCertificationNumberToEmail(certificationNumber, email);
+        return certificationNumber;
+    }
+
+    private void sendCertificationNumberToEmail(String certificationNumber, String email) throws BaseException {
+        String subject = "Real Me 회원가입 인증번호";
+        String text = "Real Me 회원가입을 위한 인증번호는 <h2>"+certificationNumber +"</h2>입니다. <br />";
+
+        try{
+            MimeMessage message = sender.createMimeMessage();
+            MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+            messageHelper.setTo(email);
+            messageHelper.setSubject(subject);
+            messageHelper.setText(text, true);
+            sender.send(message);
+        }catch(Exception exception){
+            exception.printStackTrace();
+            throw new BaseException(USERS_EMAIL_SEND_FAIL);
+        }
     }
 }

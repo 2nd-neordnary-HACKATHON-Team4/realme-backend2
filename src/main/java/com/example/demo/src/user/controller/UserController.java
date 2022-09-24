@@ -176,4 +176,13 @@ public class UserController {
         }
     }
 
+    @ResponseBody
+    @GetMapping("/certification-number")
+    public BaseResponse<String> getEmailNumber(@RequestParam("email") String email){
+        try{
+            return new BaseResponse<>(userService.generateCertificationNumberAndSend(email));
+        }catch(BaseException e){
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
 }

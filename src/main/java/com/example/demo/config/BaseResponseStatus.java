@@ -26,6 +26,7 @@ public enum BaseResponseStatus {
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값이 비어있습니다."),
     USERS_INVALID_USER_ID(false, 2011, "잘못된 유저 아이디 값입니다."),
+    USERS_EMAIL_SEND_FAIL(false, 2012, "유저에게 이메일을 보내는 데 실패했습니다"),
 
     // [POST] /users/signup
     POST_USERS_INVALID_EMAIL(false,2020,"잘못된 이메일 형식입니다."),
