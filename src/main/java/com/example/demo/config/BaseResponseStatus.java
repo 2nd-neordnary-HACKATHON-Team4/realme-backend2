@@ -24,7 +24,7 @@ public enum BaseResponseStatus {
     INVALID_FEED_NUM(false, 2004, "잘못된 feedidx 정보 입니다."),
 
     // users
-    USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
+    USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값이 비어있습니다."),
     USERS_INVALID_USER_ID(false, 2011, "잘못된 유저 아이디 값입니다."),
 
     // [POST] /users/signup
@@ -49,6 +49,9 @@ public enum BaseResponseStatus {
     // 페이징 관련 요청 오류
     EMPTY_PAGE_INDEX(false,2200,"페이지 인덱스 값이 필요합니다."),
     INVALID_PAGE_INDEX(false,2201,"잘못된 페이지 인덱스입니다."),
+
+    // 카테고리 관련 요청 오류
+    INVALID_CATEGORY_TYPE(false, 2300, "존재하지 않는 카테고리입니다."),
 
 
 

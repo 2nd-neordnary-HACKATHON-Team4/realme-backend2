@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class CategoryEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryIdx;
+    private Long categoryidx;
 
     @Column(nullable = false, length = 45)
     private String categoryName;
