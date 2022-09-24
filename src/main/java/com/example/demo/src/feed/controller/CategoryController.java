@@ -39,7 +39,12 @@ public class CategoryController {
         }
     }
 
+
     @ResponseBody
+    @ApiOperation(value = "카테고리 조회 API")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "요청에 성공하였습니다.")
+    })
     @GetMapping("")
     public BaseResponse<List<CategoryDTO.UserProtectedList>> categoryList(@RequestParam(value = "categoryIdx")Long categoryIdx){
         try {
