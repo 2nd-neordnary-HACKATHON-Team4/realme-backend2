@@ -24,6 +24,7 @@ public enum BaseResponseStatus {
 
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
+    USERS_INVALID_USER_ID(false, 2011, "잘못된 유저 아이디 값입니다."),
 
     // [POST] /users
     POST_USERS_EMPTY_PHONENUMBER(false,2030,"휴대폰 번호를 입력해주세요."),

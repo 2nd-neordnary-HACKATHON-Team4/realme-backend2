@@ -2,6 +2,7 @@ package com.example.demo.src.user.controller;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.user.DTO.UserDto;
 import com.example.demo.src.user.service.UserService;
 import com.example.demo.src.user.DTO.Login;
 import com.example.demo.utils.JwtService;
@@ -43,5 +44,24 @@ public class UserController {
 
     }
 
+    @ResponseBody
+    @GetMapping("/{userId}")
+    public BaseResponse<UserDto.Page> getUsersPage(@PathVariable("userId") Long userId) {
+        try {
+            return new BaseResponse<>(userService.getUsersPage(userId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    @ResponseBody
+    @GetMapping("/")
+    public BaseResponse<UserDto.Page> getMyPage() {
+        try {
+            return new BaseResponse<>(userService.getCurrentUserPage());
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
 
 }
