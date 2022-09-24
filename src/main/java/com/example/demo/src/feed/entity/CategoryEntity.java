@@ -1,4 +1,4 @@
-package com.example.demo.src.category.Entity;
+package com.example.demo.src.feed.entity;
 
 import com.example.demo.config.BaseEntity;
 import lombok.Builder;

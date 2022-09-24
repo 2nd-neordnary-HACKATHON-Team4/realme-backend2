@@ -1,12 +1,10 @@
 package com.example.demo.src.feed.entity;
 
 import com.example.demo.config.BaseEntity;
-import com.example.demo.src.category.Entity.CategoryEntity;
 import com.example.demo.src.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 

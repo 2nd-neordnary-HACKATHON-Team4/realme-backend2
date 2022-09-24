@@ -2,8 +2,8 @@ package com.example.demo.src.feed.service;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
-import com.example.demo.src.category.Entity.CategoryEntity;
-import com.example.demo.src.category.Repository.CategoryRepository;
+import com.example.demo.src.feed.entity.CategoryEntity;
+import com.example.demo.src.feed.repository.CategoryRepository;
 import com.example.demo.src.feed.DTO.FeedDTO;
 import com.example.demo.src.feed.entity.FeedEntity;
 import com.example.demo.src.feed.repository.FeedRepository;
@@ -13,7 +13,6 @@ import com.example.demo.utils.JwtService;
 import com.example.demo.src.feed.entity.LikeEntity;
 import com.example.demo.src.feed.repository.LikeRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.example.demo.src.category.DTO;
+package com.example.demo.src.feed.DTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.demo.src.category.Controller;
+package com.example.demo.src.feed.controller;
 
 import com.example.demo.src.category.Service.CategoryService;
 import org.springframework.stereotype.Controller;
