@@ -116,4 +116,34 @@ public class FeedService {
         return categoryList;
     }
 
+    public List<CategoryDTO.UserProtectedList> categoryList(Long categoryIdx) throws BaseException{
+        Optional<CategoryEntity> category = this.categoryRepository.findById(categoryIdx);
+        List<FeedEntity> feedEntities;
+        if(category.isEmpty() || categoryIdx == 0){
+            feedEntities = this.feedRepository.findAll();
+        }else{
+            feedEntities = this.feedRepository.findAllByCategory(category.get());
+        }
+        List<CategoryDTO.UserProtectedList> userProtectedLists = new ArrayList<>();
+        for(FeedEntity i : feedEntities){
+
+            CategoryDTO.UserProtectedList list = new CategoryDTO.UserProtectedList();
+            CategoryDTO.CategoryProtected protects = new CategoryDTO.CategoryProtected();
+            CategoryDTO.UserProtected users = new CategoryDTO.UserProtected();
+            list.setId(i.getId());
+            list.setContents(i.getContents());
+            list.setImgUrl(i.getImgUrl());
+            list.setCreatedDate(i.getCreatedDate());
+            protects.setCategoryidx(i.getCategory().getCategoryidx());
+            protects.setCategoryName(i.getCategory().getCategoryName());
+            list.setCategoryProtected(protects);
+            users.setId(i.getUser().getId());
+            users.setNickname(i.getUser().getNickname());
+            users.setProfileImgUrl(i.getUser().getProfileImgUrl());
+            list.setUserProtected(users);
+
+            userProtectedLists.add(list);
+        }
+        return userProtectedLists;
+    }
 }
