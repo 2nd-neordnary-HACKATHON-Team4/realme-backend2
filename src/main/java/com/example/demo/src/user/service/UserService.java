@@ -3,7 +3,6 @@ package com.example.demo.src.user.service;
 import com.example.demo.config.BaseException;
 import com.example.demo.src.user.DTO.UserDto;
 import com.example.demo.src.user.entity.UserEntity;
-import com.example.demo.src.user.DTO.Login;
 import com.example.demo.src.user.repository.UserRepository;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
@@ -21,22 +20,25 @@ public class UserService {
     private final JwtService jwtService;
 
 
-    public String signIn(Login login) throws BaseException {
-        //닉네임 중복 체크는 따로!
+    public String createUser(UserDto.SignUp signUp) throws BaseException {
+        //닉네임 중복 체크
+        if(this.userRepository.existsByNickname(signUp.getEmail())) {
+            throw new BaseException(DUPLICATED_NICKNAME);
+        }
 
         //비밀 번호 암호화
         try {
-            String pwd = new SHA256().encrypt(login.getPassword());
-            login.setPassword(pwd);
+            String pwd = new SHA256().encrypt(signUp.getPassword());
+            signUp.setPassword(pwd);
         } catch (Exception exception) {
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
 
         try {
             UserEntity user = UserEntity.builder()
-                    .email(login.getEmail())
-                    .password(login.getPassword())
-                    .nickname(login.getNickName())
+                    .email(signUp.getEmail())
+                    .password(signUp.getPassword())
+                    .nickname(signUp.getNickName())
                     .build();
 
             UserEntity savedUser = this.userRepository.save(user);
@@ -73,5 +75,30 @@ public class UserService {
         if(this.userRepository.existsByNickname(nickName)) {
             throw new BaseException(DUPLICATED_NICKNAME);
         }
+    }
+
+    public String logIn(UserDto.LogIn login) throws BaseException {
+
+        UserEntity user = userRepository.findByEmail(login.getEmail());
+
+        // 암호화된 비밀번호
+        String encryptedPassword;
+
+        try {
+            encryptedPassword = new SHA256().encrypt(login.getPassword());
+        } catch (Exception exception) {
+            throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
+        }
+        
+        // 비밀 번호 체크
+        if(user.getPassword().equals(encryptedPassword)) {
+            long userId = user.getId();
+            String jwt = jwtService.createJwt(userId);
+            return jwt;
+        }
+        else {
+            throw new BaseException(FAILED_TO_LOGIN);
+        }
+
     }
 }
