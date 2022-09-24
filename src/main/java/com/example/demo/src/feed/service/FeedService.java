@@ -122,9 +122,9 @@ public class FeedService {
 
         List<FeedEntity> feedEntities;
         if(category.isEmpty() || categoryIdx == 0){
-            feedEntities = this.feedRepository.findAll();
+            feedEntities = this.feedRepository.findAllByOrderByCreatedDateDesc();
         }else{
-            feedEntities = this.feedRepository.findAllByCategory(category.get());
+            feedEntities = this.feedRepository.findAllByCategoryOrderByCreatedDateDesc(category.get());
         }
 
         List<CategoryDTO.UserProtectedList> userProtectedLists = new ArrayList<>();
