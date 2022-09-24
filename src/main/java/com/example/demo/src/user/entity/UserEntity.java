@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -28,6 +29,9 @@ public class UserEntity extends BaseEntity {
     private String nickname;
 
     @Column
+    private String introduce;
+
+    @Column
     private String phoneNumber;
 
     @Column
@@ -35,9 +39,10 @@ public class UserEntity extends BaseEntity {
 
 
     @Builder
-    public UserEntity(String email, String nickname, String password, String phoneNumber, String profileImgUrl){
+    public UserEntity(String email, String nickname, String introduce, String password, String phoneNumber, String profileImgUrl){
         this.email = email;
         this.nickname = nickname;
+        this.introduce = introduce;
         this.phoneNumber = phoneNumber;
         this.profileImgUrl = profileImgUrl;
         this.password = password;

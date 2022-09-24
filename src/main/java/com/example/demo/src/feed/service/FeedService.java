@@ -10,33 +10,32 @@ import com.example.demo.src.feed.repository.FeedRepository;
 import com.example.demo.src.user.entity.UserEntity;
 import com.example.demo.src.user.repository.UserRepository;
 import com.example.demo.utils.JwtService;
+import com.example.demo.src.feed.entity.LikeEntity;
+import com.example.demo.src.feed.repository.LikeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static com.example.demo.config.BaseResponseStatus.*;
+
 @Service
+@RequiredArgsConstructor
 public class FeedService {
     private final FeedRepository feedRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final LikeRepository likeRepository;
 
-    public FeedService(FeedRepository feedRepository, CategoryRepository categoryRepository, UserRepository userRepository,
-                       JwtService jwtService){
-        this.feedRepository = feedRepository;
-        this.categoryRepository = categoryRepository;
-        this.userRepository = userRepository;
-        this.jwtService = jwtService;
-    }
-
-    public void postFeed(FeedDTO.PostFeed postFeed) throws BaseException{
+    public void postFeed(FeedDTO.PostFeed postFeed) throws BaseException {
         Optional<UserEntity> writer = userRepository.findById(this.jwtService.getUserIdx());
-        if(writer.isEmpty()){
+        if (writer.isEmpty()) {
             throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
         }
         System.out.println(writer.get());
         Optional<CategoryEntity> category = this.categoryRepository.findById(postFeed.getCategoryIdx());
-        if(category.isEmpty()){
+        if (category.isEmpty()) {
             throw new BaseException(BaseResponseStatus.INVALID_CATEGORY_TYPE);
         }
 
@@ -48,7 +47,29 @@ public class FeedService {
                 .build();
 
         feedRepository.save(feedEntity);
+    }
 
 
+    public UserEntity userlike(Long userIdx, Long feedIdx) throws BaseException {
+        Optional<UserEntity> user = this.userRepository.findById(userIdx);
+        Optional<FeedEntity> feed = this.feedRepository.findById(feedIdx);
+        if(user.isEmpty()){
+            throw new BaseException(INVALID_USER_JWT);
+        }
+        if(feed.isEmpty()){
+            throw new BaseException(INVALID_FEED_NUM);
+        }
+        LikeEntity like = this.likeRepository.findByUserAndFeed(user, feed);
+        if(like != null){
+            this.likeRepository.delete(like);
+        }else{
+            LikeEntity likeEntity = LikeEntity.builder()
+                    .user(user.get())
+                    .feed(feed.get())
+                    .build();
+            this.likeRepository.save(likeEntity);
+        }
+        //exception
+        return this.userRepository.findById(userIdx).get();
     }
 }
