@@ -13,6 +13,7 @@ import com.example.demo.utils.JwtService;
 import com.example.demo.src.feed.entity.LikeEntity;
 import com.example.demo.src.feed.repository.LikeRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -72,4 +73,8 @@ public class FeedService {
         //exception
         return this.userRepository.findById(userIdx).get();
     }
+    public int userLikeFeed(UserEntity user, FeedEntity feed){
+        return this.likeRepository.countByUserAndFeed(user,feed);
+    }
+
 }
