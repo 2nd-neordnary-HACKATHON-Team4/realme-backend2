@@ -9,8 +9,7 @@ import com.example.demo.utils.SHA256;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
-import static com.example.demo.config.BaseResponseStatus.PASSWORD_ENCRYPTION_ERROR;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +20,7 @@ public class UserService {
 
 
     public String signIn(Login login) throws BaseException {
+        //닉네임 중복 체크는 따로!
 
         //비밀 번호 암호화
         try {
@@ -31,11 +31,10 @@ public class UserService {
         }
 
         try {
-
             UserEntity user = UserEntity.builder()
                     .email(login.getEmail())
                     .password(login.getPassword())
-                    .nickname("닉네임")
+                    .nickname(login.getNickName())
                     .build();
 
             UserEntity savedUser = this.userRepository.save(user);
@@ -48,5 +47,11 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
 
+    }
+
+    public void checkNickName(String nickName) throws BaseException {
+        if(this.userRepository.existsByNickname(nickName)) {
+            throw new BaseException(DUPLICATED_NICKNAME);
+        }
     }
 }
