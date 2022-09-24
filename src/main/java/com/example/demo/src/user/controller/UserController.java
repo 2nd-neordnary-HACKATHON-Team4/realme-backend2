@@ -180,6 +180,12 @@ public class UserController {
 
     @ResponseBody
     @GetMapping("/certification-number")
+    @ApiOperation(value = "이메일에 인증 번호 6자리 보낸 후에 인증 번호 리턴. 이미 있는 이메일일 경우 에러")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "요청에 성공하였습니다."),
+            @ApiResponse(code = 2012, message = "유저에게 이메일을 보내는 데 실패했습니다."),
+            @ApiResponse(code = 3040, message = "중복된 이메일입니다."),
+    })
     public BaseResponse<String> getEmailNumber(@RequestParam("email") String email){
         try{
             return new BaseResponse<>(userService.generateCertificationNumberAndSend(email));
