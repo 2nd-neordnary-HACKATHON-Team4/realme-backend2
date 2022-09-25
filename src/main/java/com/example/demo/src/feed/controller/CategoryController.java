@@ -48,7 +48,7 @@ public class CategoryController {
     @GetMapping("")
     public BaseResponse<List<CategoryDTO.UserProtectedList>> categoryList(@RequestParam(value = "categoryIdx")Long categoryIdx){
         try {
-            return new BaseResponse<>(this.feedService.categoryList(categoryIdx));
+            return new BaseResponse<>(this.feedService.categoryList(categoryIdx, this.jwtService.getUserIdx()));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

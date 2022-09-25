@@ -43,6 +43,8 @@ public class CategoryDTO {
         private CategoryProtected categoryProtected;
         @ApiModelProperty(value = "사용자 정보 보호", required = true)
         private UserProtected userProtected;
+        @ApiModelProperty(value = "좋아요 여부", required = true, example = "true")
+        private boolean isHeartedPressed;
     }
 
     @NoArgsConstructor

@@ -35,7 +35,7 @@ public class FeedDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class isHeartedPressed{
-        @ApiModelProperty(value = "좋아요 여부", required = true, example = "1")
+        @ApiModelProperty(value = "좋아요 여부", required = true, example = "true")
         private boolean isHeartedPressed;
     }
 }
