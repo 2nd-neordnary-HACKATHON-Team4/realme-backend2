@@ -1,5 +1,10 @@
 # realme-backend
 
+## 기술 스택
+<p align="center">
+<img width="848" alt="스크린샷 2022-09-25 오전 11 28 13" src="https://user-images.githubusercontent.com/101321313/192125613-9056af43-3416-4661-b4c5-c8c77ccf8aeb.png" style="width: 60%">
+</p>
+
 ## 브랜치 
 `develop`에서 각 기능별 `feature/기능이름` 으로 브랜치를 나누어 개발 후 완료되면 `develop`에 PR한다
 
