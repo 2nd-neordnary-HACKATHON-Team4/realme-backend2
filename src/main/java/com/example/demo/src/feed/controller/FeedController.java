@@ -11,12 +11,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -58,10 +60,10 @@ public class FeedController {
             @ApiResponse(code = 2011, message = "카테고리를 선택해주세요."),
             @ApiResponse(code = 2012, message = "제목을 입력해주세요.")
     })
-    @PostMapping("/feeds")
-    public BaseResponse<String> postFeed(@RequestBody FeedDTO.PostFeed feed){
+    @PostMapping(value = "/feeds", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public BaseResponse<String> postFeed(@RequestPart FeedDTO.PostFeed feed, @RequestPart MultipartFile imgFile){
         try{
-            feedService.postFeed(feed);
+            feedService.postFeed(feed, imgFile);
             return new BaseResponse<>("피드 작성을 완료했습니다.");
         }catch (BaseException e){
             return new BaseResponse<>(e.getStatus());

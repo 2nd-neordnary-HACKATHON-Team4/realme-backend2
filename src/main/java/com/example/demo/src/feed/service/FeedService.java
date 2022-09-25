@@ -3,7 +3,6 @@ package com.example.demo.src.feed.service;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.feed.DTO.CategoryDTO;
-import com.example.demo.src.feed.controller.CategoryController;
 import com.example.demo.src.feed.entity.CategoryEntity;
 import com.example.demo.src.feed.repository.CalendarRepository;
 import com.example.demo.src.feed.repository.CategoryRepository;
@@ -15,14 +14,13 @@ import com.example.demo.src.user.repository.UserRepository;
 import com.example.demo.utils.JwtService;
 import com.example.demo.src.feed.entity.LikeEntity;
 import com.example.demo.src.feed.repository.LikeRepository;
-import com.fasterxml.jackson.databind.ser.Serializers;
+import com.example.demo.utils.S3Uploader;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static com.example.demo.config.BaseResponseStatus.*;
@@ -36,8 +34,9 @@ public class FeedService {
     private final CalendarRepository calendarRepository;
     private final JwtService jwtService;
     private final LikeRepository likeRepository;
+    private final S3Uploader s3Uploader;
 
-    public void postFeed(FeedDTO.PostFeed postFeed) throws BaseException {
+    public void postFeed(FeedDTO.PostFeed postFeed, MultipartFile imgFile) throws BaseException {
         Optional<UserEntity> writer = userRepository.findById(this.jwtService.getUserIdx());
         if (writer.isEmpty()) {
             throw new BaseException(BaseResponseStatus.INVALID_USER_JWT);
@@ -57,11 +56,16 @@ public class FeedService {
             throw new BaseException(BaseResponseStatus.INVALID_CATEGORY_TYPE);
         }
 
+        // 이미지 업로드
+        String dirName = "realme/users/" + writer.get().getId() + "/profile-img";
+        String imgUrl = s3Uploader.upload(imgFile, dirName);
+
         FeedEntity feedEntity = FeedEntity.builder()
                 .user(writer.get())
                 .contents(postFeed.getContents())
-                .imgUrl(postFeed.getImgUrl())
+                .imgUrl(imgUrl)
                 .category(category.get())
+                .title(postFeed.getTitle())
                 .build();
 
         feedRepository.save(feedEntity);

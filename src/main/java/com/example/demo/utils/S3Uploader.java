@@ -1,7 +1,10 @@
 package com.example.demo.utils;
+
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,15 +24,18 @@ public class S3Uploader {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-        File uploadFile = convert(multipartFile)
-                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
-
-        return upload(uploadFile, dirName);
+    public String upload(MultipartFile multipartFile, String dirName) throws BaseException {
+        try {
+            File uploadFile = convert(multipartFile)
+                    .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
+            return upload(uploadFile, dirName);
+        } catch (IOException e) {
+            throw new BaseException(BaseResponseStatus.USERS_S3_CONVERT_FAIL);
+        }
     }
 
     private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName();
+        String fileName = dirName + "/" + UUID.randomUUID();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
@@ -49,8 +55,8 @@ public class S3Uploader {
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
-        File convertFile = new File(file.getOriginalFilename());
-        if(convertFile.createNewFile()) {
+        File convertFile = new File(System.getProperty("user.dir") + "/"+file.getOriginalFilename());
+        if (convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
             }

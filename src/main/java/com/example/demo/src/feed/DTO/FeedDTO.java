@@ -14,7 +14,6 @@ public class FeedDTO {
     public static class PostFeed{
         private String title;
         private String contents;
-        private String imgUrl;
         private Long categoryIdx;
 
     }
