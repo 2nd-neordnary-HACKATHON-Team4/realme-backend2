@@ -69,9 +69,10 @@ public class FeedService {
     }
 
 
-    public UserEntity userlike(Long userIdx, Long feedIdx) throws BaseException {
+    public FeedDTO.isHeartedPressed userlike(Long userIdx, Long feedIdx) throws BaseException {
         Optional<UserEntity> user = this.userRepository.findById(userIdx);
         Optional<FeedEntity> feed = this.feedRepository.findById(feedIdx);
+        FeedDTO.isHeartedPressed isheart = new FeedDTO.isHeartedPressed();
         if(user.isEmpty()){
             throw new BaseException(INVALID_USER_JWT);
         }
@@ -81,15 +82,17 @@ public class FeedService {
         LikeEntity like = this.likeRepository.findByUserAndFeed(user, feed);
         if(like != null){
             this.likeRepository.delete(like);
+            isheart.setHeartedPressed(false);
         }else{
             LikeEntity likeEntity = LikeEntity.builder()
                     .user(user.get())
                     .feed(feed.get())
                     .build();
             this.likeRepository.save(likeEntity);
+            isheart.setHeartedPressed(true);
         }
         //exception
-        return this.userRepository.findById(userIdx).get();
+        return isheart;
     }
 
     public int userLikeFeed(FeedEntity feed){

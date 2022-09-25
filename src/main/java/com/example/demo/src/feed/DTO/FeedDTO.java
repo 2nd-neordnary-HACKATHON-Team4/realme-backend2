@@ -29,4 +29,13 @@ public class FeedDTO {
         @ApiModelProperty(value = "피드 작성일", required = true, example = "2022-09")
         private String creatAt;
     }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class isHeartedPressed{
+        @ApiModelProperty(value = "좋아요 여부", required = true, example = "1")
+        private boolean isHeartedPressed;
+    }
 }
