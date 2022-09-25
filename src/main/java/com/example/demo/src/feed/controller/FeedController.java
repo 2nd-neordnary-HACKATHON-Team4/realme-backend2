@@ -21,8 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static com.example.demo.config.BaseResponseStatus.GET_INVALID_DATE;
-import static com.example.demo.config.BaseResponseStatus.POST_USERS_INVALID_EMAIL;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -61,6 +60,12 @@ public class FeedController {
     @PostMapping("/feeds")
     public BaseResponse<String> postFeed(@RequestBody FeedDTO.PostFeed feed){
         try{
+            if(feed.getContents().length()>150 || feed.getContents().length()<5){
+                return new BaseResponse<>(POST_FEEDS_OVER_LENGTH);
+            }
+            if(feed.getTitle().length()>15 || feed.getTitle().length()<1){
+                return new BaseResponse<>(POST_FEEDS_OVER_LENGTH_TITLE);
+            }
             feedService.postFeed(feed);
             return new BaseResponse<>("피드 작성을 완료했습니다.");
         }catch (BaseException e){
