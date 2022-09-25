@@ -69,27 +69,30 @@ public class FeedService {
     }
 
 
-    public UserEntity userlike(Long userIdx, Long feedIdx) throws BaseException {
+    public FeedDTO.isHeartedPressed userlike(Long userIdx, Long feedIdx) throws BaseException {
         Optional<UserEntity> user = this.userRepository.findById(userIdx);
         Optional<FeedEntity> feed = this.feedRepository.findById(feedIdx);
+        FeedDTO.isHeartedPressed isheart = new FeedDTO.isHeartedPressed();
         if(user.isEmpty()){
             throw new BaseException(INVALID_USER_JWT);
         }
         if(feed.isEmpty()){
             throw new BaseException(INVALID_FEED_NUM);
         }
-        LikeEntity like = this.likeRepository.findByUserAndFeed(user, feed);
+        LikeEntity like = this.likeRepository.findByUserAndFeed(user.get(), feed.get());
         if(like != null){
             this.likeRepository.delete(like);
+            isheart.setHeartedPressed(false);
         }else{
             LikeEntity likeEntity = LikeEntity.builder()
                     .user(user.get())
                     .feed(feed.get())
                     .build();
             this.likeRepository.save(likeEntity);
+            isheart.setHeartedPressed(true);
         }
         //exception
-        return this.userRepository.findById(userIdx).get();
+        return isheart;
     }
 
     public int userLikeFeed(FeedEntity feed){
@@ -118,7 +121,10 @@ public class FeedService {
         return categoryList;
     }
 
-    public List<CategoryDTO.UserProtectedList> categoryList(Long categoryIdx) throws BaseException{
+    public List<CategoryDTO.UserProtectedList> categoryList(Long categoryIdx, Long userIdx) throws BaseException{
+        UserEntity user = this.userRepository.findById(userIdx)
+                .orElseThrow(() -> new BaseException(INVALID_FEED_NUM));
+
         Optional<CategoryEntity> category = this.categoryRepository.findById(categoryIdx);
 
         List<FeedEntity> feedEntities;
@@ -133,6 +139,9 @@ public class FeedService {
             CategoryDTO.UserProtectedList list = new CategoryDTO.UserProtectedList();
             CategoryDTO.CategoryProtected protects = new CategoryDTO.CategoryProtected();
             CategoryDTO.UserProtected users = new CategoryDTO.UserProtected();
+            if(this.likeRepository.findByUserAndFeed(user, i) == null){
+                list.setHeartedPressed(false);
+            }else list.setHeartedPressed(true);
             list.setId(i.getId());
             list.setTitle(i.getTitle());
             list.setContents(i.getContents());

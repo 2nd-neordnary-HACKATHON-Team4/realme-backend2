@@ -39,7 +39,7 @@ public class FeedController {
             @ApiResponse(code = 2004, message = "잘못된 feedidx 정보 입니다.")
     })
     @PostMapping("/feed/{feedIdx}/like")
-    public BaseResponse<UserEntity> userlike(@PathVariable("feedIdx") Long feedIdx){
+    public BaseResponse<FeedDTO.isHeartedPressed> userlike(@PathVariable("feedIdx") Long feedIdx){
         try {
             return new BaseResponse<>(this.feedService.userlike(this.jwtService.getUserIdx(),feedIdx));
         } catch (BaseException e) {
