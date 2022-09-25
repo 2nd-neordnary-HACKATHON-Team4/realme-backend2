@@ -129,11 +129,11 @@ public class FeedService {
 
         List<CategoryDTO.UserProtectedList> userProtectedLists = new ArrayList<>();
         for(FeedEntity i : feedEntities){
-
             CategoryDTO.UserProtectedList list = new CategoryDTO.UserProtectedList();
             CategoryDTO.CategoryProtected protects = new CategoryDTO.CategoryProtected();
             CategoryDTO.UserProtected users = new CategoryDTO.UserProtected();
             list.setId(i.getId());
+            list.setTitle(i.getTitle());
             list.setContents(i.getContents());
             list.setImgUrl(i.getImgUrl());
             list.setCreatedDate(i.getCreatedDate());
