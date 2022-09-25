@@ -62,6 +62,7 @@ public class FeedService {
                 .contents(postFeed.getContents())
                 .imgUrl(postFeed.getImgUrl())
                 .category(category.get())
+                .title(postFeed.getTitle())
                 .build();
 
         feedRepository.save(feedEntity);
